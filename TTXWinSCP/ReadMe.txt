@@ -56,7 +56,7 @@ Configuration example:
   WinSCPMenuString="WinSCP(&J)"
   WinSCPPath="C:\Program Files (x86)\WinSCP\WinSCP.exe"
   WinSCPSchema=scp
-  WinSCPPort=22
+  WinSCPPort=
   WinSCPUserEmbed=off
   WinSCPUser=
   WinSCPPasswordEmbed=off

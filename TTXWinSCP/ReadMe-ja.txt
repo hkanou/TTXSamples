@@ -18,7 +18,7 @@ TTXWinSCP -- WinSCP起動ランチャー
     scp、sftp、ftp、ftpsのいずれかを指定してください。
     未設定の場合はscpを使用します。
   - username
-    コマンドラインオプション(/user=等)でユーザー名が与えていても、その値は使用されません。
+    コマンドラインオプション(/user=等)でユーザー名が与えられていても、その値は使用されません。
     これは、Process Explorerなどのツールを用いることでWinSCPへの引数が参照可能であり、
     ユーザー名漏洩のきっかけになるためです。
     INIファイルのパラメタWinSCPUserEmbed(デフォルト値:off)にAcceptTheRiskを設定することで
