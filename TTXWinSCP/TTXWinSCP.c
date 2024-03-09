@@ -27,7 +27,7 @@
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// TTXWinSCP.c : Ver 0.3 2024/3/10
+// TTXWinSCP.c : Ver 0.4 2024/3/9
 
 #include "teraterm.h"
 #include "tttypes.h"
@@ -348,9 +348,10 @@ static int PASCAL TTXProcessCommand(HWND hWin, WORD cmd) {
       _snwprintf_s(str, MAX_PATH, _TRUNCATE, L"%s:%ws/", str, pvar->DirList[num]);
     }
 
-    return myWinExec(pvar->WinSCPPath, str);
+    myWinExec(pvar->WinSCPPath, str);
+    return 1; // 1 = processed the message
   }
-  return NO_ERROR;
+  return 0;
 }
 
 static TTXExports Exports = {
