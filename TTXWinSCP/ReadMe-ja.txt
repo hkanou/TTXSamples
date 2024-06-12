@@ -1,52 +1,52 @@
-TTXWinSCP -- WinSCP�N�������`���[
+﻿TTXWinSCP -- WinSCP起動ランチャー
 
-�@�\:
-  Tera Term�ɁAWinSCP�̋N�����j���[��ǉ����܂��B
-  SCP�ڑ���̃f�B���N�g�����T�u���j���[����I�����܂��B
+機能:
+  Tera Termに、WinSCPの起動メニューを追加します。
+  SCP接続後のディレクトリをサブメニューから選択します。
 
-���:
-  Tera Term�̐ڑ������g�p���āAWinSCP���N�����܂��B
+解説:
+  Tera Termの接続情報を使用して、WinSCPを起動します。
 
     winscp.exe [schema://[username[:password@]hostname:port[/path/]]
 
   - winscp.exe
-    INI�t�@�C���̃p�����^WinSCPPath�̒l���g�p���܂��B
-    ���ݒ�̏ꍇ��"C:\Program Files (x86)\WinSCP\WinSCP.exe"���g�p���܂��B
-    �p�X���z���C�g�X�y�[�X���܂ޏꍇ��"�ň͂��Ă��������B
+    INIファイルのパラメタWinSCPPathの値を使用します。
+    未設定の場合は"C:\Program Files (x86)\WinSCP\WinSCP.exe"を使用します。
+    パスがホワイトスペースを含む場合は"で囲ってください。
   - schema
-    INI�t�@�C���̃p�����^WinSCPschema�̒l���g�p���܂��B
-    scp�Asftp�Aftp�Aftps�̂����ꂩ���w�肵�Ă��������B
-    ���ݒ�̏ꍇ��scp���g�p���܂��B
+    INIファイルのパラメタWinSCPschemaの値を使用します。
+    scp、sftp、ftp、ftpsのいずれかを指定してください。
+    未設定の場合はscpを使用します。
   - username
-    �R�}���h���C���I�v�V����(/user=��)�Ń��[�U�[�����^�����Ă��Ă��A���̒l�͎g�p����܂���B
-    ����́AProcess Explorer�Ȃǂ̃c�[����p���邱�Ƃ�WinSCP�ւ̈������Q�Ɖ\�ł���A
-    ���[�U�[���R�k�̂��������ɂȂ邽�߂ł��B
-    INI�t�@�C���̃p�����^WinSCPUserEmbed(�f�t�H���g�l:off)��AcceptTheRisk��ݒ肷�邱�Ƃ�
-    WinSCP�Ƀ��[�U�[����n�����Ƃ͉\�ł����A�{�ݒ�͔񐄏��ł��B
-    AcceptTheRisk���ݒ肳��Ă���ꍇ�́AINI�t�@�C���̃p�����^WinSCPUser�̒l���g�p���܂��B
-    �R�}���h���C���I�v�V����(/user=��)�Ń��[�U�[�����^�����Ă���ꍇ�́A���̒l��D�悵�܂��B
+    コマンドラインオプション(/user=等)でユーザー名が与えられていても、その値は使用されません。
+    これは、Process Explorerなどのツールを用いることでWinSCPへの引数が参照可能であり、
+    ユーザー名漏洩のきっかけになるためです。
+    INIファイルのパラメタWinSCPUserEmbed(デフォルト値:off)にAcceptTheRiskを設定することで
+    WinSCPにユーザー名を渡すことは可能ですが、本設定は非推奨です。
+    AcceptTheRiskが設定されている場合は、INIファイルのパラメタWinSCPUserの値を使用します。
+    コマンドラインオプション(/user=等)でユーザー名が与えられている場合は、その値を優先します。
   - password
-    username�Ɠ��l�A�p�X���[�h�R�k�̂��������ɂȂ邽�߁A�R�}���h���C���I�v�V����(/passwd=��)��
-    �p�X���[�h���^���Ă��Ă����̒l�͎g�p����܂���B
-    INI�t�@�C���̃p�����^WinSCPPasswordEmbed(�f�t�H���g�l:off)��AcceptTheRisk��ݒ肷�邱�Ƃ�
-    WinSCP�Ƀp�X���[�h��n�����Ƃ͉\�ł����A�{�ݒ�͔񐄏��ł��B
+    usernameと同様、パスワード漏洩のきっかけになるため、コマンドラインオプション(/passwd=等)で
+    パスワードが与えていてもその値は使用されません。
+    INIファイルのパラメタWinSCPPasswordEmbed(デフォルト値:off)にAcceptTheRiskを設定することで
+    WinSCPにパスワードを渡すことは可能ですが、本設定は非推奨です。
   - host
-    �ڑ���̃z�X�g���g�p���܂��B
+    接続先のホストを使用します。
   - port
-    �ڑ���̃|�[�g�ԍ����g�p���܂�
-    INI�t�@�C���̃p�����^WinSCPPort�ɒl���ݒ肳��Ă���ꍇ�́A���̒l���g�p���܂��B
+    接続先のポート番号を使用します
+    INIファイルのパラメタWinSCPPortに値が設定されている場合は、その値を使用します。
   - path
-    INI�t�@�C���̃p�����^Dir1�`Dir20�̒l���T�u���j���[�ɕ\������܂��B
-    �T�u���j���[�̍��ڐ��͍ő��20�ł��B�ő吔�𑝂₷�ꍇ��TTXWinSCP.c��
-    MAX_DIR_ITEMS�𑝂₵�ăr���h���Ă��������B
+    INIファイルのパラメタDir1～Dir20の値がサブメニューに表示されます。
+    サブメニューの項目数は最大で20です。最大数を増やす場合はTTXWinSCP.cの
+    MAX_DIR_ITEMSを増やしてビルドしてください。
 
-  INI�t�@�C���̃p�����^WinSCPMenuString�̒l�����j���[�̃^�C�g���ɕ\������܂��B
-  ���ݒ�̏ꍇ��"WinSCP(&J)"���g���܂��B
+  INIファイルのパラメタWinSCPMenuStringの値がメニューのタイトルに表示されます。
+  未設定の場合は"WinSCP(&J)"が使われます。
 
-  INI�t�@�C���ɁA[WinSCP]�Z�N�V������DirX�����ݒ�̏ꍇ�́A
-  WinSCP�̋N�����j���[�͕\������܂���B
+  INIファイルに、[WinSCP]セクションとDirXが未設定の場合は、
+  WinSCPの起動メニューは表示されません。
 
-�ݒ��:
+設定例:
   [WinSCP]
   WinSCPMenuString="WinSCP(&J)"
   WinSCPPath="C:\Program Files (x86)\WinSCP\WinSCP.exe"
@@ -63,7 +63,7 @@ TTXWinSCP -- WinSCP�N�������`���[
   Dir6=/opt
   Dir7=/tmp
 
-���ŗ���:
-  Ver 0.1 2024/02/25 �x�[�^��
-  Ver 0.2 2024/03/03 ����
-  Ver 0.3 2024/03/05 port:�ڑ���̃|�[�g�ԍ���D�悷��悤�C��
+改版履歴:
+  Ver 0.1 2024/02/25 ベータ版
+  Ver 0.2 2024/03/03 初版
+  Ver 0.3 2024/03/05 port:接続先のポート番号を優先するよう修正
