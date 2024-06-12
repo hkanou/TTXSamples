@@ -1,9 +1,9 @@
-# Tera Term ƒvƒ‰ƒOƒCƒ“
+# Tera Term ãƒ—ãƒ©ã‚°ã‚¤ãƒ³
 
-  - [TTXWinSCP.dll](https://github.com/hkanou/TTXSamples/tree/main/Release) -- WinSCPƒ‰ƒ“ƒ`ƒƒ[  
-    “®ìŠÂ‹« : [Tera Term 5](https://teratermproject.github.io/)A[WinSCP](https://winscp.net/eng/download.php)  
+  - [TTXWinSCP.dll](https://github.com/hkanou/TTXSamples/tree/main/Release) -- WinSCPãƒ©ãƒ³ãƒãƒ£ãƒ¼  
+    å‹•ä½œç’°å¢ƒ : [Tera Term 5](https://teratermproject.github.io/)ã€[WinSCP](https://winscp.net/eng/download.php)  
     ![TTXWinSCP Image](image/TTXWinSCP.png)
 
-## ƒrƒ‹ƒhŠÂ‹«
+## ãƒ“ãƒ«ãƒ‰ç’°å¢ƒ
 
   Visual Studio Express 2017
