@@ -12,11 +12,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe-ja.txt">
-      <Filter>ReadMe</Filter>
-    </Text>
-    <Text Include="ReadMe.txt">
-      <Filter>ReadMe</Filter>
-    </Text>
+    <Text Include="ReadMe-ja.txt" />
+    <Text Include="ReadMe.txt" />
   </ItemGroup>
 </Project>
