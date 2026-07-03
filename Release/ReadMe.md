@@ -1,6 +1,6 @@
 ﻿## Hash value
 
-  TTXWinSCP.dll (Version 0.4 2024/7/3)  
+  TTXWinSCP.dll (Version 0.4, 2026/7/3)  
   Algorithm : SHA256  
 
   - [x64](https://github.com/hkanou/TTXSamples/raw/main/Release/x64/TTXWinSCP.dll)  
