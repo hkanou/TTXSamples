@@ -27,7 +27,7 @@
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// TTXWinSCP.c : Ver 0.5 2026/6/17
+// TTXWinSCP.c : Ver 0.6 2026/7/14
 
 #include "teraterm.h"
 #include "tttypes.h"
@@ -96,7 +96,7 @@ static void PASCAL TTXInit(PTTSet ts, PComVar cv)
 	pvar->ssh2_password[0]			= 0;
 }
 
-static void PASCAL percent_encode(const wchar_t *src, wchar_t *dist)
+static void PASCAL percent_encode(const wchar_t *src, wchar_t *dist, int dist_size)
 {
 	if (src == NULL || dist == NULL) {
 		return;
@@ -112,7 +112,7 @@ static void PASCAL percent_encode(const wchar_t *src, wchar_t *dist)
 	};
 
 	wchar_t *p = dist;
-	int remain = MAX_PATH - 1;
+	int remain = dist_size - 1;
 
 	while(*src && remain > 0) {
 		wchar_t c = *src++;
@@ -171,13 +171,13 @@ static void PASCAL TTXParseParam(wchar_t *Param, PTTSet ts, PCHAR DDETopic)
 			if (wcscmp(pvar->WinSCPUserEmbed, L"AcceptTheRisk") == 0) {
 				myTolower(buff, '=');
 				swscanf_s(buff, L"/user=%[^\t\n]", tmpstr, (unsigned)_countof(tmpstr));
-				percent_encode(tmpstr, pvar->ssh2_username);
+				percent_encode(tmpstr, pvar->ssh2_username, _countof(pvar->ssh2_username));
 			}
 		} else if (_wcsnicmp(buff, L"/passwd=", 8) == 0) {
 			if (wcscmp(pvar->WinSCPPasswordEmbed, L"AcceptTheRisk") == 0) {
 				myTolower(buff, '=');
 				swscanf_s(buff, L"/passwd=%[^\t\n]", tmpstr, (unsigned)_countof(tmpstr));
-				percent_encode(tmpstr, pvar->ssh2_password);
+				percent_encode(tmpstr, pvar->ssh2_password, _countof(pvar->ssh2_password));
 				CryptProtectMemory(pvar->ssh2_password, sizeof(pvar->ssh2_password), CRYPTPROTECTMEMORY_SAME_PROCESS);
 			}
 		} else if ((_wcsnicmp(buff, L"ssh://", 6) == 0) ||
@@ -195,21 +195,22 @@ static void PASCAL TTXParseParam(wchar_t *Param, PTTSet ts, PCHAR DDETopic)
 					swscanf_s(userinfo, L"%[^:]:%ls",
 							  tmp_username, (unsigned)_countof(tmp_username),
 							  tmp_password, (unsigned)_countof(tmp_password));
-					percent_encode(tmp_username, pvar->ssh2_username);
-					percent_encode(tmp_password, pvar->ssh2_password);
+					percent_encode(tmp_username, pvar->ssh2_username, _countof(pvar->ssh2_username));
+					percent_encode(tmp_password, pvar->ssh2_password, _countof(pvar->ssh2_password));
 					CryptProtectMemory(pvar->ssh2_password, sizeof(pvar->ssh2_password), CRYPTPROTECTMEMORY_SAME_PROCESS);
 				} else {
 					swscanf_s(p, L"%[^@]", tmp_username, (unsigned)_countof(tmp_username));
-					percent_encode(tmp_username, pvar->ssh2_username);
+					percent_encode(tmp_username, pvar->ssh2_username, _countof(pvar->ssh2_username));
 				}
 			}
 			SecureZeroMemory(userinfo, sizeof(userinfo));
+			SecureZeroMemory(tmp_username, sizeof(tmp_username));
 			SecureZeroMemory(tmp_password, sizeof(tmp_password));
 		} else if(wcschr(buff, '@') != NULL) {
 			wchar_t tmp_username[MAX_PATH];
 			// <username>@<host>[:<#TCP port>]
 			swscanf_s(buff, L"%[^@]", tmp_username, (unsigned)_countof(tmp_username));
-			percent_encode(tmp_username, pvar->ssh2_username);
+			percent_encode(tmp_username, pvar->ssh2_username, _countof(pvar->ssh2_username));
 		}
 		cur = next;
 	}
@@ -315,11 +316,12 @@ static int PASCAL myWinExec(wchar_t *exe, wchar_t *arg)
 					 L"Unable to execute file:\n%ws\n\nCreateProcess failed; code %d,\n%ws",
 					 pvar->WinSCPPath, code, errmsg);
 		MessageBoxExW(NULL, str, DLL_NAME, MB_OK | MB_ICONERROR, 0);
+	} else {
+		CloseHandle(pi.hThread);
+		CloseHandle(pi.hProcess);
 	}
-
 	SecureZeroMemory(cmd, sizeof(cmd));
-	CloseHandle(pi.hThread);
-	CloseHandle(pi.hProcess);
+
 	return code;
 }
 
@@ -338,14 +340,14 @@ static int PASCAL TTXProcessCommand(HWND hWin, WORD cmd)
 			// IPv6
 			MultiByteToWideChar(CP_UTF8, 0, pvar->ts->HostName, -1, tmp1, _countof(tmp1));
 			_snwprintf_s(tmp2, _countof(tmp2), _TRUNCATE, L"[%ws]", tmp1);
-			percent_encode(tmp2, hostname);
+			percent_encode(tmp2, hostname, _countof(hostname));
 		} else {
 			MultiByteToWideChar(CP_UTF8, 0, pvar->ts->HostName, -1, tmp2, _countof(tmp2));
-			percent_encode(tmp2, hostname);
+			percent_encode(tmp2, hostname, _countof(hostname));
 		}
 
 		if (pvar->ssh2_username[0] == 0) {
-			percent_encode(pvar->WinSCPUser, username);
+			percent_encode(pvar->WinSCPUser, username, _countof(username));
 		} else {
 			_snwprintf_s(username, _countof(username), _TRUNCATE, L"%ls", pvar->ssh2_username);
 		}
@@ -372,13 +374,13 @@ static int PASCAL TTXProcessCommand(HWND hWin, WORD cmd)
 
 		if (pvar->DirList[num][0] != 0) {
 			wcscpy_s(tmp, _countof(tmp), str);
-			percent_encode(pvar->DirList[num], tmp1);
+			percent_encode(pvar->DirList[num], tmp1, _countof(tmp1));
 			_snwprintf_s(str, _countof(str), _TRUNCATE, L"%ws/%ws/", tmp, &tmp1[3]);
 		}
 
 		myWinExec(pvar->WinSCPPath, str);
 		SecureZeroMemory(str, sizeof(str));
-		SecureZeroMemory(str, sizeof(tmp));
+		SecureZeroMemory(tmp, sizeof(tmp));
 		return 1; // 1 = processed the message
 	}
 	return 0;

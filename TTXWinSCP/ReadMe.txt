@@ -72,4 +72,6 @@ History:
   Ver 0.1 2024.02.25 beta version
   Ver 0.2 2024.03.03 first release
   Ver 0.3 2024.03.05 Corrected to prioritize connected port number.
-  Ver 0.4 2026.07.03 refactored.
+  Ver 0.4 2026.03.09 Minor corrections
+  Ver 0.5 2026.06.17 Rrefactored
+  Ver 0.6 2026.07.14 Minor corrections
